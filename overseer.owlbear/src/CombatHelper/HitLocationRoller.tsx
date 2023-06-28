@@ -25,6 +25,24 @@ function getBodyPart(value: number): string {
     }
 }
 
+function getBodyPartAndText(value: number): string {
+  if (value === 1 || value === 2) {
+    return 'Head 🤯';
+  } else if (value >= 3 && value <= 8) {
+    return 'Torso 🦺 ';
+  } else if (value >= 9 && value <= 11) {
+    return 'Left Arm 💪 ';
+  } else if (value >= 12 && value <= 14) {
+    return 'Right Arm 💪';
+  } else if (value >= 15 && value <= 17) {
+    return 'Left Leg 🦵';
+  } else if (value >= 18 && value <= 20) {
+    return 'Right Leg 🦵';
+  } else {
+    return 'Invalid Value';
+  }
+}
+
 const HitLocationRoller: React.FC = () => {
     const [emoji, setEmoji] = useState('❓');
     const [rolling, setRolling] = useState(false);
@@ -51,7 +69,7 @@ const HitLocationRoller: React.FC = () => {
             clearInterval(intervalId);
   
             result = generateRandomNumber();
-            let emoji1 = getBodyPart(result);
+            let emoji1 = getBodyPartAndText(result);
             setEmoji(emoji1);
             setRolling(false);
           }
