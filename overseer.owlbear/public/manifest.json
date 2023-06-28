@@ -2,6 +2,9 @@
     "name": "Overseer",
     "version": "0.0.1",
     "manifest_version": 1,
+    "author": "MatsyDoodles",
+    "homepage_url": "https://github.com/matsydoodles/Overseer.Owlbear",
+    "description": "Fallout 2d20 Combat Extension",
     "action": {
       "title": "Overseer",
       "icon": "/overseer.owlbear.svg",
