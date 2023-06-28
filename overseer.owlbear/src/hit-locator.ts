@@ -3,7 +3,6 @@ import OBR, { Metadata } from "@owlbear-rodeo/sdk";
 const ID = "com.overseer.hit-locator";
 
 const emojis = ['🤯', '🦺', '💪', '🦵'];
-const hits: string[] = [];
 
 const generateRandomNumber = (): number => {
     const min = 1;

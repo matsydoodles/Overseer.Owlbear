@@ -29,12 +29,11 @@ export function CombatHelper() {
   const [numberOfDie, setNumberOfDie] = useState<number>(2);
   const [diceFace, setDiceFace] = useState(1);
   const [rolling, setRolling] = useState(false);
-  const [rollingIndex, setRollingIndex] = useState(-1);
 
 // https://mui.com/material-ui/react-toggle-button/
 
   const handleTargetDefence = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newDefence: string,
   ) => {
     if(newDefence !== null) {
@@ -43,7 +42,7 @@ export function CombatHelper() {
   };
 
   const handleTargetDistance = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newTargetDistance: string,
   ) => {
     if(newTargetDistance !== null) {
@@ -52,7 +51,7 @@ export function CombatHelper() {
   };
 
   const handleWeaponDistance = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newWeaponDistance: string,
   ) => {
     if(newWeaponDistance !== null) {
@@ -61,7 +60,7 @@ export function CombatHelper() {
   };
 
   const handleHitLocation = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newHitLocation: string,
   ) => {
     if(newHitLocation !== null) {
