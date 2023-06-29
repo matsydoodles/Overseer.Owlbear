@@ -25,26 +25,27 @@ function getBodyPart(value: number): string {
     }
 }
 
-function getBodyPartAndText(value: number): string {
+function getText(value: number): string {
   if (value === 1 || value === 2) {
-    return 'Head 🤯';
+    return 'Head';
   } else if (value >= 3 && value <= 8) {
-    return 'Torso 🦺 ';
+    return 'Torso';
   } else if (value >= 9 && value <= 11) {
-    return 'Left Arm 💪 ';
+    return 'Left Arm';
   } else if (value >= 12 && value <= 14) {
-    return 'Right Arm 💪';
+    return 'Right Arm';
   } else if (value >= 15 && value <= 17) {
-    return 'Left Leg 🦵';
+    return 'Left Leg';
   } else if (value >= 18 && value <= 20) {
-    return 'Right Leg 🦵';
+    return 'Right Leg';
   } else {
     return 'Invalid Value';
   }
 }
 
 const HitLocationRoller: React.FC = () => {
-    const [emoji, setEmoji] = useState('❓');
+    const [emoji, setEmoji] = useState('❓'); 
+    const [description, setDescription] = useState('-'); 
     const [rolling, setRolling] = useState(false);
 
     const changeEmoji = () => {
@@ -59,7 +60,7 @@ const HitLocationRoller: React.FC = () => {
         if (rolling) return;
   
         setRolling(true);
-
+        setDescription("-");
         let delay = 100;
   
         intervalId = setInterval(async () => {
@@ -69,17 +70,22 @@ const HitLocationRoller: React.FC = () => {
             clearInterval(intervalId);
   
             result = generateRandomNumber();
-            let emoji1 = getBodyPartAndText(result);
-            setEmoji(emoji1);
+            setEmoji(getBodyPart(result));
+            setDescription(getText(result));
             setRolling(false);
           }
         }, delay);
     }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ marginBottom: '10px' }}>{emoji}</div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
         <Button variant="outlined" onClick={onRoll} disabled={rolling}>ROLL</Button>
+        <div style={{ width: '100px', textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', height: '25px' }}>{emoji}</div>
+          <div style={{ textAlign: 'center', height: '25px' }}>{description}</div>
+        </div>
+      </div>
     </div>
   );
 };

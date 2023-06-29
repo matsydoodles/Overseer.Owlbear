@@ -249,11 +249,7 @@ export function CombatHelper() {
 
       <div>
         <Typography variant="h5">3. Determine Hit Location</Typography>
-        <div className="roll-button-group-content">
-          <div className="roll-button-group">
-            <HitLocationRoller />
-          </div>
-        </div>
+        <HitLocationRoller />
       </div>
 
       <hr className="group-divider" />
