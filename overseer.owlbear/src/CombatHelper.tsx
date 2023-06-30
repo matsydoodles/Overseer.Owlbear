@@ -5,11 +5,9 @@ import "./CombatHelper.css";
 import Typography from "@mui/material/Typography";
 import Box  from "@mui/material/Box";
 import Button from '@mui/material/Button';
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import TextField from "@material-ui/core/TextField";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
 import targetDefenceMapper from "./CombatHelper/TargetDefenceMapper";
 import weaponDistanceMapper from "./CombatHelper/WeaponDistanceMapper";
 import targetDistanceMapper from "./CombatHelper/TargetDistanceMapper";
@@ -95,8 +93,9 @@ export function CombatHelper() {
     setTargetRange(actualTargetRange);
   };
 
-  const handleDieSelectionChanged = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setNumberOfDie(event.target.value as number);
+  const handleDieSelectionChanged = (event: SelectChangeEvent<number>) => {
+    const value = parseInt(event.target.value.toString(), 10);
+    setNumberOfDie(value);
   };
 
     const handleAttemptTest = () => {
@@ -170,7 +169,7 @@ export function CombatHelper() {
               <ToggleButtonGroup exclusive
                                  value={weaponDistance}
                                  onChange={handleWeaponDistance}
-                                aria-label="weapon distance">
+                                 aria-label="weapon distance">
                     <ToggleButton value="0" aria-label="1" sx={{fontSize: 11}}>Close</ToggleButton>
                     <ToggleButton value="1" aria-label="2" sx={{fontSize: 11}}>Medium</ToggleButton>
                     <ToggleButton value="2" aria-label="3" sx={{fontSize: 11}}>Long</ToggleButton>
@@ -200,52 +199,44 @@ export function CombatHelper() {
 
       <div>
         <Typography variant="h5">2. Attempt Test</Typography>
-        <div className="group-content">
-          <div className="difficulty-group">
-            <Typography variant="h6">Difficulty</Typography>
-            <Typography variant="h6">{difficulty}</Typography>
-          </div>
-          <div className="target-range-group">
-            <Box sx={{ width: 150 }}>
-              <TextField
-            id="filled-helperText"
-            label="Target Range"
-            defaultValue='0'
-            value={targetRange}
-            variant="outlined"
-            onChange={handleTargetRange}
-            />
-                     </Box>
-          </div>
-          <div className="dice-to-roll-group">
-            <Box sx={{ minWidth: 150 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-multiple-name-label">Die to throw...</InputLabel>
-                <Select value={numberOfDie} onChange={handleDieSelectionChanged}>
-                     <MenuItem value={2}>2 x D20</MenuItem>
-                     <MenuItem value={3}>3 x D20</MenuItem>
-                     <MenuItem value={4}>4 x D20</MenuItem>
-                     <MenuItem value={5}>5 x D20</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </div>
-        </div>
+        <Box display="flex" justifyContent="space-between" gap={2} sx={{ marginTop: '10px', alignItems: 'center' }}>
+          <Box textAlign="center">
+            <TextField label="Difficulty"
+                       value={difficulty}
+                       variant="outlined"
+                       size="small"
+                       sx={{input: {textAlign: "center"}}} />
+          </Box>
+          <Box>
+            <TextField label="Target Range"
+                       value={targetRange}
+                       variant="outlined"
+                       size="small"
+                       sx={{input: {textAlign: "center"}}}
+                       onChange={handleTargetRange} />
+          </Box>
+          <Box>
+            <Select value={numberOfDie} onChange={handleDieSelectionChanged} size="small">
+              <MenuItem value="2">2 x D20</MenuItem>
+              <MenuItem value="3">3 x D20</MenuItem>
+              <MenuItem value="4">4 x D20</MenuItem>
+              <MenuItem value="5">5 x D20</MenuItem>
+            </Select>
+          </Box>
+        </Box>
         <div style={{ margin: '10px 0', display: 'flex', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', marginBottom: '10px' }}>
-        {Array.from({ length: numberOfDie }).map((_, index) => (
-          <Dice key={index} rolling={rolling} />
-        ))}
-      </div>
-      
-      </div>
+          <div style={{ display: 'flex' }}>
+            {Array.from({ length: numberOfDie }).map((_, index) => (
+              <Dice key={index} rolling={rolling} targetRange={targetRange} />
+            ))}
+          </div>
+        </div>
         <div className="roll-button-group">
-          <Button variant="outlined" disabled={rolling} onClick={handleAttemptTest}>
-            {/* {rolling ? 'Rolling...' : 'Roll'} */}
-            Roll
-          </Button>
+          <Button variant="outlined" disabled={rolling} onClick={handleAttemptTest}>Roll</Button>
         </div>
       </div>
+
+      <hr className="group-divider" />
 
       <div>
         <Typography variant="h5">3. Determine Hit Location</Typography>
@@ -272,8 +263,6 @@ export function CombatHelper() {
       <div className="remaining-space">
         {/* Content for the remaining space */}
       </div>
-
-    {/* // </div> */}
     </Box>
     );
 }

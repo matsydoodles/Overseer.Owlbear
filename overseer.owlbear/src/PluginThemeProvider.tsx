@@ -3,6 +3,8 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import OBR, { Theme } from "@owlbear-rodeo/sdk";
 import React from "react";
 import { useEffect, useState } from "react";
+import { pooPaletteColor } from "./PaletteColors/PooPaletteColor";
+import { starPaletteColor } from "./PaletteColors/StarPaletteColor";
 
 /**
  * Create a MUI theme based off of the current OBR theme
@@ -15,7 +17,9 @@ function getTheme(theme?: Theme) {
           text: theme.text,
           primary: theme.primary,
           secondary: theme.secondary,
-          background: theme.background,
+          background: theme.background, 
+          poo: pooPaletteColor,
+          star: starPaletteColor
         }
       : undefined,
     shape: {
@@ -72,22 +76,6 @@ function getTheme(theme?: Theme) {
           }
         }
       },
-      MuiTextField: {
-        defaultProps: {
-          style: {
-            color: "primary"
-          }
-        }
-      }
-      // MuiToggleButton: {
-      //   defaultProps: {
-      //     style: {
-      //       display: "flex",
-      //       height: 22.750,
-      //       alignContent: "center"
-      //     }
-      //   }
-      // }
     },
   });
 }

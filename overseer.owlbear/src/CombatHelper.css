@@ -132,14 +132,28 @@
     color: #fff;
   }
    */
-  .group-content {
+  /* .group-content {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-  }
+  } */
   
-  .difficulty-group,
+  /* .difficulty-group
+  /* .label-value-group,
+  .label-group { */
+  /* { display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px; */
+    /* margin-bottom: 0.5rem; */
+    /* font-family: Roboto, Helvetica, Arial, sans-serif; */
+    /* font-size: 1rem; */
+    /* line-height: 1.5; */
+    /* letter-spacing: 0.00938em; */
+    /* color: rgba(255, 255, 255, 0.7); */
+    /* } */
+
   .target-range-group
   /* .label-value-group,
   .label-group { */
