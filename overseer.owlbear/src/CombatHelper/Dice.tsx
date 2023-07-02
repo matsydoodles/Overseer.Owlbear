@@ -4,12 +4,13 @@ import { useTheme } from '@mui/material/styles';
 interface DiceProps {
   rolling: boolean;
   targetRange: number;
+  skillRange: number;
 }
 
 function determineResult(value: number): string {
-  if (value === 1) {
+  if (value === 20) {
     return '💩';
-  } else if (value === 20) {
+  } else if (value === 1) {
     return '⭐';
   } else if (value >= 2 && value <= 19) {
     return value.toString();
@@ -17,21 +18,29 @@ function determineResult(value: number): string {
     return 'Invalid Value ' + value ;
 }
 
-const Dice: React.FC<DiceProps> = ({ rolling, targetRange }) => {
+const Dice: React.FC<DiceProps> = ({ rolling, targetRange, skillRange }) => {
   const [face, setFace] = useState<string>('❓');
   const [range, setRange] = useState<number>(0);
+  const [skill, setSkill] = useState<number>(0);
   const theme = useTheme();
 
   useEffect(() => {
     setRange(targetRange);
   }, [targetRange]);
 
+  useEffect(() => {
+    setSkill(skillRange);
+  }, [skillRange]);
+
   function determineColor() {
     let faceValue = parseInt(face);
+    var critical = faceValue <= skill;
     var result = faceValue <= range;
     if (face === '💩') {
       return theme.palette.poo.main;
     } else if (face === '⭐') {
+      return theme.palette.star.main;
+    } else if(critical) {
       return theme.palette.star.main;
     } else if (result) {
       return  theme.palette.success.main; 
@@ -67,7 +76,7 @@ const Dice: React.FC<DiceProps> = ({ rolling, targetRange }) => {
         fontWeight: 'bold',
         transition: 'font-size 2s ease-in-out',
         marginRight: '10px',
-        color: parseInt(face) <= range ? theme.palette.success.main : theme.palette.error.main,
+        color: determineColor(),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
