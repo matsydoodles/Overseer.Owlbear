@@ -16,6 +16,7 @@ import weaponRangeDifficulty from "./CombatHelper/WeaponRangeDifficulty";
 import hitLocationMapper from "./CombatHelper/HitLocationMapper";
 import Dice from "./CombatHelper/Dice";
 import HitLocationRoller from "./CombatHelper/HitLocationRoller";
+import CombatRoller from "./CombatHelper/CombatRoller";
 
 export function CombatHelper() {
 
@@ -29,8 +30,6 @@ export function CombatHelper() {
   const [numberOfDie, setNumberOfDie] = useState<number>(2);
   const [diceFace, setDiceFace] = useState(1);
   const [rolling, setRolling] = useState(false);
-
-// https://mui.com/material-ui/react-toggle-button/
 
   const handleTargetDefence = (
     _event: React.MouseEvent<HTMLElement>,
@@ -289,18 +288,16 @@ export function CombatHelper() {
 
       <div>
       <Typography variant="h5">4. Inflict Damage</Typography>
-        <div className="group-content">
-        </div>
+        <CombatRoller/>
       </div>
 
       <hr className="group-divider" />
 
-      <div>
+      {/* <div>
         <Typography variant="h5">5. Reduce Ammo</Typography>
         <div className="group-content">
-        {/* Reduce ammo controls go here */}
         </div>
-      </div>
+      </div> */}
       
       <div className="remaining-space">
         {/* Content for the remaining space */}

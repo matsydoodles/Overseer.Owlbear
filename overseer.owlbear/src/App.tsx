@@ -13,6 +13,8 @@ export function App() {
   }, []);
 
   if (sceneReady) {
+    OBR.action.setHeight(700);
+
     return <CombatHelper />;
   } else {
     // Show a basic header when the scene isn't ready
