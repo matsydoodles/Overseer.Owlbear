@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
+import './dice.css';
 
 interface DiceProps {
   rolling: boolean;
@@ -59,23 +60,9 @@ const theme = useTheme();
   }, [rolling, onRollComplete, resetFace]);
 
   return (
-<div
-  style={{
-    width: '37.5px',
-    height: '37.5px',
-    border: '1px solid',
-    borderRadius: '5px',
-    borderColor: determineColor(),
-    color: determineColor(),
-    fontSize: '18px',
-    fontWeight: 'bold',
-    transition: 'font-size 2s ease-in-out',
-    marginRight: '10px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center'
-  }}>
+<div className="base-dice" 
+     style={{ borderColor: determineColor(),
+              color: determineColor()  }}>
       {face !== null ? face : '❓'}
     </div>
   );
