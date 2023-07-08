@@ -118,7 +118,9 @@ import Dice from './Dice';
           </Tooltip>
         </Box>
         <Box>
-          <Select value={numberOfDie} onChange={handleDieSelectionChanged} size="small">
+          <Select value={numberOfDie} 
+                  onChange={handleDieSelectionChanged}
+                  size="small">
             <MenuItem value="2">2 x D20</MenuItem>
             <MenuItem value="3">3 x D20</MenuItem>
             <MenuItem value="4">4 x D20</MenuItem>

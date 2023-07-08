@@ -72,7 +72,6 @@ function getTheme(theme?: Theme) {
         defaultProps: {
           style: {
           maxHeight: 48 * 4.5 + 8,
-          width: 250
           }
         }
       },
