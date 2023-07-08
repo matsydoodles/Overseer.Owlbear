@@ -12,16 +12,18 @@ import Dice from './Dice';
     difficulty: number;
   }
 
-  const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty }) => {
+const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty }) => {
     const [localDifficulty, setLocalDifficulty] = React.useState(0);
     const [targetRange, setTargetRange] = useState<number>(0);
     const [taggedSkill, setTaggedSkill] = useState<number>(0);
     const [numberOfDie, setNumberOfDie] = useState<number>(2);
     const [diceFace, setDiceFace] = useState(1);
     const [rolling, setRolling] = useState(false);
+    const [resetFace, setResetFace] = useState(false);
 
     useEffect(() => {
       setLocalDifficulty(difficulty)
+      setResetFace(true);
     }, [difficulty]);
 
     const NUMERIC_REGEX = /^[0-9]+$/;
@@ -34,6 +36,7 @@ import Dice from './Dice';
       var actualTargetRange = parseInt(newTargetRange, 10);
   
       setTargetRange(actualTargetRange);
+      setResetFace(true);
     };
   
     const handleTaggedSkill = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,17 +48,20 @@ import Dice from './Dice';
       var actualTaggedSkill = parseInt(newTaggedSkill, 10);
   
       setTaggedSkill(actualTaggedSkill);
+      setResetFace(true);
     };
   
     const handleDieSelectionChanged = (event: SelectChangeEvent<number>) => {
       const value = parseInt(event.target.value.toString(), 10);
       setNumberOfDie(value);
+      setResetFace(true);
     };
   
     const handleAttemptTest = () => {
       if (rolling) return;
   
       setRolling(true);
+      setResetFace(false);
   
       let currentDiceFace = 1;
       const rollInterval = setInterval(() => {
@@ -131,7 +137,11 @@ import Dice from './Dice';
       <div style={{ margin: '10px 0', display: 'flex', justifyContent: 'center' }}>
         <div style={{ display: 'flex' }}>
           {Array.from({ length: numberOfDie }).map((_, index) => (
-            <Dice key={index} rolling={rolling} targetRange={targetRange} skillRange={taggedSkill} />
+            <Dice key={index} 
+                  rolling={rolling} 
+                  targetRange={targetRange} 
+                  skillRange={taggedSkill}
+                  resetFace={resetFace} />
           ))}
         </div>
       </div>

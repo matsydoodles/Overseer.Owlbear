@@ -6,6 +6,7 @@ interface DiceProps {
   rolling: boolean;
   targetRange: number;
   skillRange: number;
+  resetFace: boolean;
 }
 
 function determineResult(value: number): string {
@@ -19,7 +20,7 @@ function determineResult(value: number): string {
     return 'Invalid Value ' + value ;
 }
 
-const Dice: React.FC<DiceProps> = ({ rolling, targetRange, skillRange }) => {
+const Dice: React.FC<DiceProps> = ({ rolling, targetRange, skillRange, resetFace }) => {
   const [face, setFace] = useState<string>('❓');
   const [range, setRange] = useState<number>(0);
   const [skill, setSkill] = useState<number>(0);
@@ -63,7 +64,13 @@ const Dice: React.FC<DiceProps> = ({ rolling, targetRange, skillRange }) => {
         clearInterval(rollInterval);
       }, 2000);
     }
-  }, [rolling]);
+    else {
+      if(resetFace) {
+        setFace('❓');
+        return;
+      }
+    }
+  }, [rolling, resetFace]);
 
   return (
 <div className="base-dice" 

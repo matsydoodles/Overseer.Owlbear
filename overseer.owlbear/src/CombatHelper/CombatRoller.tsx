@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CombatDice from './CombatDice';
 import Slider from '@mui/material/Slider';
 import Typography from '@mui/material/Typography';
@@ -67,12 +67,6 @@ const CombatRoller: React.FC = () => {
     const parsedValue = parseValue(value);
     setTotal((prevTotal) => (prevTotal !== null ? prevTotal + parsedValue : parsedValue));
   };
-
-  useEffect(() => {
-    if (resetFace) {
-      setResetFace(false);
-    }
-  }, [resetFace]);
 
   return (
 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
