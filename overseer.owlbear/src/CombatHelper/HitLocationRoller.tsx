@@ -45,7 +45,7 @@ function getText(value: number): string {
 
 const HitLocationRoller: React.FC = () => {
     const [emoji, setEmoji] = useState('❓'); 
-    const [description, setDescription] = useState('-'); 
+    const [description, setDescription] = useState('❓'); 
     const [rolling, setRolling] = useState(false);
 
     const changeEmoji = () => {
@@ -60,7 +60,7 @@ const HitLocationRoller: React.FC = () => {
         if (rolling) return;
   
         setRolling(true);
-        setDescription("-");
+        setDescription("❓");
         let delay = 100;
   
         intervalId = setInterval(async () => {
