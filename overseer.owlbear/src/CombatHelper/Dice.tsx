@@ -62,7 +62,7 @@ const Dice: React.FC<DiceProps> = ({ rolling, targetRange, skillRange, resetFace
 
       setTimeout(() => {
         clearInterval(rollInterval);
-      }, 2000);
+      }, 1850);
     }
     else {
       if(resetFace) {

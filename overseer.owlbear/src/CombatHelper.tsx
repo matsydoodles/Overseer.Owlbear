@@ -20,6 +20,7 @@ export function CombatHelper() {
   const [targetDistance, setTargetDistance] = useState<string>('1');
   const [weaponDistance, setWeaponDistance] = useState<string>('1');
   const [hitLocation, setHitLocation] = React.useState<string>('0');
+  const [hitTestrolling, setHitTestRolling] = useState(false);
 
   const handleTargetDefence = (
     _event: React.MouseEvent<HTMLElement>,
@@ -57,6 +58,14 @@ export function CombatHelper() {
     }
   };
 
+  const handleHitTestStarted = () => {
+    setHitTestRolling(true);
+  };
+
+  const handleHitTestComplete = () => {
+    setHitTestRolling(false);
+  };
+
   useEffect(() => {
     calculateDifficulty();
   }, [targetDefence, weaponDistance, targetDistance, hitLocation]);
@@ -89,6 +98,7 @@ export function CombatHelper() {
               <ToggleButtonGroup exclusive
                                  value={targetDefence}
                                  onChange={handleTargetDefence}
+                                 disabled={hitTestrolling}
                                  aria-label="target defense">
                 <ToggleButton value="0" aria-label="1">
                   <label>1</label>
@@ -108,6 +118,7 @@ export function CombatHelper() {
                   <ToggleButtonGroup exclusive
                                      value={targetDistance}
                                      onChange={handleTargetDistance}
+                                     disabled={hitTestrolling}
                                      aria-label="target distance">
                     <ToggleButton value="0" aria-label="1" sx={{fontSize: 11}}>Close</ToggleButton>
                     <ToggleButton value="1" aria-label="2" sx={{fontSize: 11}}>Medium</ToggleButton>
@@ -125,6 +136,7 @@ export function CombatHelper() {
               <ToggleButtonGroup exclusive
                                  value={weaponDistance}
                                  onChange={handleWeaponDistance}
+                                 disabled={hitTestrolling}
                                  aria-label="weapon distance">
                     <ToggleButton value="0" aria-label="1" sx={{fontSize: 11}}>Close</ToggleButton>
                     <ToggleButton value="1" aria-label="2" sx={{fontSize: 11}}>Medium</ToggleButton>
@@ -142,6 +154,7 @@ export function CombatHelper() {
                 <ToggleButtonGroup exclusive
                                    value={hitLocation}
                                    onChange={handleHitLocation}
+                                   disabled={hitTestrolling}
                                    aria-label="hit location">
                   <ToggleButton value="0" aria-label="1" sx={{fontSize: 11}}>Random</ToggleButton>
                   <ToggleButton value="1" aria-label="2" sx={{fontSize: 11}}>Location</ToggleButton>
@@ -154,7 +167,9 @@ export function CombatHelper() {
       <hr className="group-divider" />
 
       <div>
-        <AttemptHitTestRoller difficulty={difficulty} />
+        <AttemptHitTestRoller difficulty={difficulty}
+                              onHitTestStarted={handleHitTestStarted}
+                              onHitTestComplete={handleHitTestComplete}  />
       </div>
 
       <hr className="group-divider" />

@@ -10,14 +10,15 @@ import Dice from './Dice';
 
   interface AttemptHitTestRollerProps {
     difficulty: number;
+    onHitTestComplete: () => void;
+    onHitTestStarted: () => void;
   }
 
-const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty }) => {
+const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty, onHitTestComplete, onHitTestStarted   }) => {
     const [localDifficulty, setLocalDifficulty] = React.useState(0);
     const [targetRange, setTargetRange] = useState<number>(0);
     const [taggedSkill, setTaggedSkill] = useState<number>(0);
     const [numberOfDie, setNumberOfDie] = useState<number>(2);
-    const [diceFace, setDiceFace] = useState(1);
     const [rolling, setRolling] = useState(false);
     const [resetFace, setResetFace] = useState(false);
 
@@ -62,17 +63,12 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
   
       setRolling(true);
       setResetFace(false);
+      onHitTestStarted();
   
-      let currentDiceFace = 1;
-      const rollInterval = setInterval(() => {
-        if (currentDiceFace === diceFace) {
-          setDiceFace(Math.floor(Math.random() * 6) + 1);
-          currentDiceFace++;
-        } else {
-          clearInterval(rollInterval);
-          setRolling(false);
-        }
-      }, 1000);
+      setTimeout(() => {
+        setRolling(false);
+        onHitTestComplete();
+      }, 1900);
     };
 
   return (
@@ -103,7 +99,8 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
                        size="small"
                        sx={{ input: {textAlign: "center"},
                              '.MuiInputLabel-root': { fontSize: '0.89rem' }}}
-                       onChange={handleTargetRange} />
+                       onChange={handleTargetRange}
+                       disabled={rolling} />
           </Tooltip>
         </Box>
         <Box>
@@ -120,13 +117,15 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
                        size="small"
                        sx={{ input: {textAlign: "center"},
                              '.MuiInputLabel-root': { fontSize: '0.89rem' }}}
-                       onChange={handleTaggedSkill} />
+                       onChange={handleTaggedSkill}
+                       disabled={rolling} />
           </Tooltip>
         </Box>
         <Box>
           <Select value={numberOfDie} 
                   onChange={handleDieSelectionChanged}
-                  size="small">
+                  size="small"
+                  disabled={rolling}>
             <MenuItem value="2">2 x D20</MenuItem>
             <MenuItem value="3">3 x D20</MenuItem>
             <MenuItem value="4">4 x D20</MenuItem>
@@ -146,7 +145,11 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
         </div>
       </div>
       <div className="roll-button-group">
-        <Button variant="outlined" disabled={rolling} onClick={handleAttemptTest}>Roll</Button>
+        <Button disabled={rolling}
+                onClick={handleAttemptTest}
+                variant="outlined">
+                  Roll
+        </Button>
       </div>
     </div>
   );
