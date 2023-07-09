@@ -186,7 +186,7 @@ export function CombatHelper() {
         <CombatRoller/>
       </div>
 
-      <hr className="group-divider" />
+      {/* <hr className="group-divider" /> */}
 
       {/* <div>
         <Typography variant="h5">5. Reduce Ammo</Typography>

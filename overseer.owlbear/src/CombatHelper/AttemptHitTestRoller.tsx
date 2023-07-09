@@ -7,6 +7,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Dice from './Dice';
+import { DiceResult } from './DiceResult';
+import DiceState from './DiceState';
+import { useTheme }from '@mui/material';
+import "./DiceStateExtensions.tsx"
 
   interface AttemptHitTestRollerProps {
     difficulty: number;
@@ -21,11 +25,58 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
     const [numberOfDie, setNumberOfDie] = useState<number>(2);
     const [rolling, setRolling] = useState(false);
     const [resetFace, setResetFace] = useState(false);
+    const [results, setResults] = useState<DiceResult[]>([]);
+    const [totalResults, setTotalResults] = useState<number>(0);
+    const [diceRolled, setdiceRolled] = useState<number>(0);
+    const [resultMessage, setResultMessage] = useState<string>('❓');
+    const [resultColor, setResultColor] = useState('');
+    const theme = useTheme();
 
     useEffect(() => {
       setLocalDifficulty(difficulty)
       setResetFace(true);
+      setResultMessage('❓');
     }, [difficulty]);
+
+    useEffect(() => {
+      if (diceRolled === numberOfDie) {
+        let result = false;
+
+        if(totalResults >= localDifficulty) {
+          result = true;
+        }
+
+        var hasComplication = results.hasComplication();
+
+        var resultMessage = ``;
+
+        if(result) {
+          var actionPoints = totalResults - localDifficulty;
+          if(actionPoints > 0) {
+            resultMessage = `Pass plus ${actionPoints} Action Points`;
+            setResultColor(theme.palette.star.main);
+          } else {
+            resultMessage = `Pass`;
+            setResultColor(theme.palette.success.main);
+          }
+        } else {
+          resultMessage = `Fail`;
+          setResultColor(theme.palette.error.main);
+        }
+
+        if(hasComplication){
+          resultMessage += ` and Complication`
+          setResultColor(theme.palette.poo.main);
+        }
+
+        setResultMessage(resultMessage);
+
+        // reset
+        setdiceRolled(0);
+        setTotalResults(0);
+        setResults([]);
+      }
+    }, [diceRolled, numberOfDie]);
 
     const NUMERIC_REGEX = /^[0-9]+$/;
     const handleTargetRange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +89,7 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
   
       setTargetRange(actualTargetRange);
       setResetFace(true);
+      setResultMessage('❓');
     };
   
     const handleTaggedSkill = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,12 +102,31 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
   
       setTaggedSkill(actualTaggedSkill);
       setResetFace(true);
+      setResultMessage('❓');
     };
   
     const handleDieSelectionChanged = (event: SelectChangeEvent<number>) => {
       const value = parseInt(event.target.value.toString(), 10);
       setNumberOfDie(value);
       setResetFace(true);
+      setResultMessage('❓');
+    };
+
+    const handleRollComplete = (diceResult: DiceResult) => {
+      setRolling(false);
+      onHitTestComplete();
+
+      const { result } = diceResult;
+
+      setResults((prevResults) => [...prevResults, diceResult]);
+
+      if(result === DiceState.CRITICAL) {
+        setTotalResults((prevTotal) => prevTotal + 2);
+      } else if(result == DiceState.SUCCESS) {
+        setTotalResults((prevTotal) => prevTotal + 1);
+      }
+
+      setdiceRolled((prevCount) => prevCount + 1);
     };
   
     const handleAttemptTest = () => {
@@ -63,12 +134,8 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
   
       setRolling(true);
       setResetFace(false);
+      setResultMessage('❓');
       onHitTestStarted();
-  
-      setTimeout(() => {
-        setRolling(false);
-        onHitTestComplete();
-      }, 1900);
     };
 
   return (
@@ -140,7 +207,8 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
                   rolling={rolling} 
                   targetRange={targetRange} 
                   skillRange={taggedSkill}
-                  resetFace={resetFace} />
+                  resetFace={resetFace}
+                  onRollComplete={handleRollComplete}  />
           ))}
         </div>
       </div>
@@ -150,6 +218,13 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
                 variant="outlined">
                   Roll
         </Button>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+        <Typography variant="h6" 
+                    component="div"
+                    sx={{ color: resultColor }}>
+          {resultMessage}
+        </Typography>
       </div>
     </div>
   );
