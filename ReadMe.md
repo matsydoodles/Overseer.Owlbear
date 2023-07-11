@@ -16,6 +16,10 @@ Get ready to elevate your Fallout 2d20 RPG sessions with Owlbear Overseer, the u
 
 To run locally call `npm run dev`
 
+#### First Timer
+
+`npx vite build`
+
 ### Tools
 
 - Virtual Table Top - [owlbear.app](https://www.owlbear.app/)

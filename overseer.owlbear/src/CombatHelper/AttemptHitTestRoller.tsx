@@ -11,6 +11,7 @@ import { DiceResult } from './DiceResult';
 import DiceState from './DiceState';
 import { useTheme }from '@mui/material';
 import "./DiceStateExtensions.tsx"
+//import ConsoleService from '../Console/ConsoleService.tsx';
 
   interface AttemptHitTestRollerProps {
     difficulty: number;
@@ -19,7 +20,10 @@ import "./DiceStateExtensions.tsx"
   }
 
 const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty, onHitTestComplete, onHitTestStarted   }) => {
-    const [localDifficulty, setLocalDifficulty] = React.useState(0);
+  
+ // const consoleService = ConsoleService.getInstance();
+  
+  const [localDifficulty, setLocalDifficulty] = React.useState(0);
     const [targetRange, setTargetRange] = useState<number>(0);
     const [taggedSkill, setTaggedSkill] = useState<number>(0);
     const [numberOfDie, setNumberOfDie] = useState<number>(2);
@@ -70,6 +74,8 @@ const AttemptHitTestRoller:  React.FC<AttemptHitTestRollerProps> = ({ difficulty
         }
 
         setResultMessage(resultMessage);
+
+  //      consoleService.postMessage(resultMessage);
 
         // reset
         setdiceRolled(0);

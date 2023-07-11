@@ -12,6 +12,11 @@ export function PluginGate({ children }: { children: React.ReactNode }) {
     if (OBR.isAvailable) {
       OBR.onReady(() => setReady(true));
     }
+
+    // return () => {
+    //   console.log("PluginGate is being unmounted.");
+    // };
+
   }, []);
 
   if (ready) {

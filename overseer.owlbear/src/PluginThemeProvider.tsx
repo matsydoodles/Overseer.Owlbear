@@ -88,13 +88,24 @@ export function PluginThemeProvider({
   children?: React.ReactNode;
 }) {
   const [theme, setTheme] = useState<MuiTheme>(() => getTheme());
+  // const [ready, setReady] = useState(false);
+  
+  // useEffect(() => {
+  //   if (OBR.isAvailable) {
+  //     console.log(`PluginThemeProvider isAvailable`, OBR.isAvailable, OBR.isReady);
+  //     OBR.onReady(() => setReady(true));
+  //   }
+  // }, []);
+  
   useEffect(() => {
     const updateTheme = (theme: Theme) => {
+      //console.log('PluginThemeProvider updateTheme');
       setTheme(getTheme(theme));
     };
     OBR.theme.getTheme().then(updateTheme);
     return OBR.theme.onChange(updateTheme);
   }, []);
+//  }, [ready]);
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
